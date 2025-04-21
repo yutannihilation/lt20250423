@@ -41,7 +41,7 @@ image: "/icon.jpg"
 
 # tl;dr
 
-- 入門に失敗しました。
+- また入門に失敗しました。
 - 何もわからないので教えてください。
 
 ---
@@ -184,6 +184,7 @@ result
 
 - QUIC 対応がまだまだ
 - ブラウザで確認しづらい
+- end to end で暗号化
 
 ---
 
@@ -202,14 +203,18 @@ result
 - 4月8日にリリースされたバージョン3.5.0でようやくserver-side QUICをサポート
   - 今は「HTTP/3を有効にしたいならBoringSSLをビルドしてね」というプロダクトが多いけど、これで徐々に状況が変わるのかも...？
 
-# HTTP/3 対応
+---
 
-- Go
-  - 標準ライブラリでは、net/internal には入っているが、まだ net/http3 はできていない
-  - quic-go を使うらしい
-- Rust
-  - quiche: Cloudflare 製。
-  - h3: hyper の拡張。いずれは hyper に取り込まれるらしい。
+# Go
+- [quic-go](https://github.com/quic-go/quic-go)
+- 標準ライブラリでは、[net/internal](https://pkg.go.dev/golang.org/x/net/internal/http3) には入っているが、まだ net/http3 はできていない
+
+---
+
+# Rust
+- [quiche](https://github.com/cloudflare/quiche): Cloudflare。最も古くからある？
+- [h3](https://github.com/hyperium/h3): hyper の拡張。いずれは hyper に取り込まれるらしい。
+- [s2n-quic](https://github.com/aws/s2n-quic): AWS。CloudFront で使われているらしい。
 
 ---
 
@@ -224,7 +229,9 @@ result
 
 - これはなんとかなった。
 
-<img src="/mkcert.png" class="h-100 pb-10" />
+<a href="https://github.com/FiloSottile/mkcert" target="_blank">
+  <img src="/mkcert.png" class="h-100 pb-10" />
+</a>
 
 ---
 
@@ -253,13 +260,34 @@ result
 
 ---
 
-# 感想
+# end to end で暗号化ということは
 
-- たぶん、h2c（平文の HTTP/2 通信）で実装して、TLS の処理はリバースプロキシに任せる、とかが正解な気がする
-  - HTTP/3 はこういうことができないので、そのサーバーで TLS 処理の負荷まで引き受けることになって、パフォーマンス的に正解なのかわからない
+<img src="/e2e.jpg" class="h-100 pb-10" />
+
+---
+
+# end to end で暗号化ということは
+
+<img src="/e2e-2.jpg" class="h-100 pb-10" />
+
+---
+
+# end to end で暗号化ということは
+
+<img src="/e2e-3.jpg" class="h-100 pb-10" />
+
+
+---
+
+# end to end で暗号化ということは
+
+- HTTP/3 のサーバーを作るのであれば、「TLS はリバースプロキシに任せた！」みたいなことはできず、そのサーバー自身が TLS 通信できないといけない
+  - CPU 負荷が不安
+- たぶん、サーバー自身は h2c（平文の HTTP/2 通信）で喋って、HTTP/3 はリバースプロキシに任せる、とかが正解な気がする
 
 ---
 
 # 感想
 
-- とはいえ、地図アプリとかって外でスマホで見るので、HTTP/3 の恩恵自体はある気がする。たぶん GIS エンジニアとしてはもうちょっと分かっといた方がよさそう
+- HTTP/3 の入門にまた失敗しました。
+- とはいえ、地図アプリとかって外でスマホで見るし、大量のファイルをやりとりするので、HTTP/3 の恩恵自体はある気がする。たぶん GIS エンジニアとしてはもうちょっと分かっといた方がよさそう。
