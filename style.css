@@ -1,0 +1,37 @@
+.slidev-layout {
+    @apply px-14 py-10 text-4xl leading-tight;
+    font-weight: 600;
+
+    li {
+        @apply py-[0.4rem] leading-tight;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    div {
+        @apply select-none leading-tight;
+        font-weight: 900;
+    }
+
+    h2 {
+        @apply text-3xl text-gray-500;
+        font-weight: 900;
+    }
+
+    p {
+        @apply mt-0;
+        font-weight: 900;
+    }
+
+    h1 {
+        @apply text-5xl;
+    }
+
+    pre,
+    code {
+        @apply text-3xl;
+    }
+}
